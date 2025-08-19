@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>יוצר כרזות חוקים וכללים</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Heebo", sans-serif;
+      }
+
+      .pastel-bg {
+        background: linear-gradient(
+          135deg,
+          #fef7ff 0%,
+          #f0f9ff 50%,
+          #f0fff4 100%
+        );
+      }
+
+      .help-tab {
+        transition: all 0.3s ease;
+      }
+
+      .help-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .help-content.open {
+        max-height: 500px;
+      }
+
+      .poster-preview {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        background: white;
+      }
+
+      .rule-item {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .allowed {
+        background-color: #f0fdf4;
+        border-right: 4px solid #22c55e;
+      }
+      .forbidden {
+        background-color: #fef2f2;
+        border-right: 4px solid #ef4444;
+      }
+      .note {
+        background-color: #fefce8;
+        border-right: 4px solid #eab308;
+      }
+    </style>
+  </head>
+  <body class="pastel-bg min-h-screen p-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- כותרת ראשית -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl lg:text-4xl font-bold text-purple-700 mb-2">
+          🎨 יוצר כרזות חוקים וכללים
+        </h1>
+        <p class="text-base lg:text-lg text-gray-600">
+          כתוב את החוקים שלך ואני אעצב עבורך כרזה יפיפיה!
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-4 lg:gap-8">
+        <!-- צד שמאל - טופס הזנה -->
+        <div class="space-y-4 lg:space-y-6">
+          <!-- שם הכרזה -->
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-xl lg:text-2xl font-semibold text-blue-700 mb-4">
+              📝 שם הכרזה
+            </h2>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-lg lg:text-xl font-semibold text-gray-700"
+                >הכללים של</span
+              >
+              <input
+                type="text"
+                id="posterName"
+                placeholder="הכיתה שלי / הבית שלי / קבוצת הווטסאפ..."
+                class="flex-1 p-2 lg:p-3 border-2 border-blue-200 rounded-xl text-base lg:text-lg focus:border-blue-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- בחירת סגנון עיצוב -->
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-2xl font-semibold text-purple-700 mb-4">
+              🎨 בחר סגנון עיצוב
+            </h2>
+
+            <select
+              id="designStyle"
+              class="w-full p-3 border-2 border-purple-200 rounded-xl text-lg mb-4 focus:border-purple-400 focus:outline-none"
+            >
+              <option value="colorful">צבעוני וחברותי 🌈</option>
+              <option value="nature">טבע ירוק 🌿</option>
+              <option value="space">חלל וכוכבים ⭐</option>
+              <option value="ocean">ים וגלים 🌊</option>
+              <option value="rainbow">קשת בענן 🌈</option>
+              <option value="animals">חיות חמודות 🐱</option>
+              <option value="custom">אני רוצה לכתוב בעצמי...</option>
+            </select>
+
+            <div id="customStyleDiv" class="hidden">
+              <input
+                type="text"
+                id="customStyle"
+                placeholder="כתוב איך אתה רוצה שהכרזה תיראה..."
+                class="w-full p-3 border-2 border-purple-200 rounded-xl text-lg focus:border-purple-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- דברי פתיחה -->
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-2xl font-semibold text-indigo-600">
+                🎯 דברי פתיחה
+              </h2>
+              <button
+                id="openingHelpBtn"
+                class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+              >
+                💡 רעיונות
+              </button>
+            </div>
+            <div
+              id="openingHelp"
+              class="hidden mb-4 p-4 bg-indigo-50 rounded-xl border border-indigo-200"
+            >
+              <h3 class="font-semibold text-indigo-800 mb-2">
+                💡 רעיונות לדברי פתיחה:
+              </h3>
+              <div class="grid grid-cols-1 gap-2 text-sm">
+                <button
+                  class="opening-suggestion text-right p-2 bg-white rounded hover:bg-indigo-100 transition-colors"
+                >
+                  "החוקים האלה יעזרו לנו ליצור מקום נעים וחברותי לכולם"
+                </button>
+                <button
+                  class="opening-suggestion text-right p-2 bg-white rounded hover:bg-indigo-100 transition-colors"
+                >
+                  "כדי שנוכל לעבוד יחד בהרמוניה, חשוב שכולנו נכיר את הכללים"
+                </button>
+                <button
+                  class="opening-suggestion text-right p-2 bg-white rounded hover:bg-indigo-100 transition-colors"
+                >
+                  "הכללים האלה נוצרו מתוך אהבה וכבוד הדדי"
+                </button>
+                <button
+                  class="opening-suggestion text-right p-2 bg-white rounded hover:bg-indigo-100 transition-colors"
+                >
+                  "יחד נבנה סביבה בטוחה ומכבדת לכל אחד ואחת"
+                </button>
+                <button
+                  class="opening-suggestion text-right p-2 bg-white rounded hover:bg-indigo-100 transition-colors"
+                >
+                  "החוקים האלה הם המפתח לחיים משותפים טובים"
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="openingText"
+              placeholder="כתוב כאן הקדמה או הסבר למה החוקים חשובים... (אופציונלי)"
+              class="w-full h-24 p-4 border-2 border-indigo-200 rounded-xl resize-none focus:border-indigo-400 focus:outline-none text-lg"
+            ></textarea>
+          </div>
+
+          <!-- הזנת חוקים -->
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-2xl font-semibold text-green-600 mb-4">
+              ✅ מה מותר?
+            </h2>
+            <textarea
+              id="allowedRules"
+              placeholder="כתוב כאן את הדברים המותרים... (כל חוק בשורה נפרדת)"
+              class="w-full h-32 p-4 border-2 border-green-200 rounded-xl resize-none focus:border-green-400 focus:outline-none text-lg"
+            ></textarea>
+          </div>
+
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-2xl font-semibold text-red-600 mb-4">
+              ❌ מה אסור?
+            </h2>
+            <textarea
+              id="forbiddenRules"
+              placeholder="כתוב כאן את הדברים האסורים... (כל חוק בשורה נפרדת)"
+              class="w-full h-32 p-4 border-2 border-red-200 rounded-xl resize-none focus:border-red-400 focus:outline-none text-lg"
+            ></textarea>
+          </div>
+
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-2xl font-semibold text-yellow-600 mb-4">
+              📝 הערות נוספות
+            </h2>
+            <textarea
+              id="additionalNotes"
+              placeholder="כתוב כאן הערות חשובות או הסברים נוספים..."
+              class="w-full h-24 p-4 border-2 border-yellow-200 rounded-xl resize-none focus:border-yellow-400 focus:outline-none text-lg"
+            ></textarea>
+          </div>
+
+          <!-- דברי סיום -->
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-2xl font-semibold text-pink-600">🎉 דברי סיום</h2>
+              <button
+                id="closingHelpBtn"
+                class="bg-pink-100 hover:bg-pink-200 text-pink-700 px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+              >
+                💡 רעיונות
+              </button>
+            </div>
+            <div
+              id="closingHelp"
+              class="hidden mb-4 p-4 bg-pink-50 rounded-xl border border-pink-200"
+            >
+              <h3 class="font-semibold text-pink-800 mb-2">
+                💡 רעיונות לדברי סיום:
+              </h3>
+              <div class="grid grid-cols-1 gap-2 text-sm">
+                <button
+                  class="closing-suggestion text-right p-2 bg-white rounded hover:bg-pink-100 transition-colors"
+                >
+                  "תודה שאתם עוזרים ליצור מקום טוב יותר לכולנו! 💕"
+                </button>
+                <button
+                  class="closing-suggestion text-right p-2 bg-white rounded hover:bg-pink-100 transition-colors"
+                >
+                  "יחד נוכל להפוך את המקום הזה למיוחד ונעים לכולם"
+                </button>
+                <button
+                  class="closing-suggestion text-right p-2 bg-white rounded hover:bg-pink-100 transition-colors"
+                >
+                  "בכבוד הדדי ואהבה - בואו נשמור על הכללים האלה"
+                </button>
+                <button
+                  class="closing-suggestion text-right p-2 bg-white rounded hover:bg-pink-100 transition-colors"
+                >
+                  "זכרו: כל אחד חשוב וכל דעה נשמעת כאן"
+                </button>
+                <button
+                  class="closing-suggestion text-right p-2 bg-white rounded hover:bg-pink-100 transition-colors"
+                >
+                  "בהצלחה לכולנו! נעבוד יחד ונצליח יחד 🌟"
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="closingText"
+              placeholder="כתוב כאן מסר מעודד או סיכום... (אופציונלי)"
+              class="w-full h-24 p-4 border-2 border-pink-200 rounded-xl resize-none focus:border-pink-400 focus:outline-none text-lg"
+            ></textarea>
+          </div>
+
+          <!-- לשונית עזרה -->
+          <div
+            class="bg-blue-50/70 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden"
+          >
+            <button
+              id="helpToggle"
+              class="help-tab w-full p-4 text-right bg-blue-100 hover:bg-blue-200 transition-colors"
+            >
+              <span class="text-xl font-semibold text-blue-700"
+                >🤔 זקוק לעזרה? לחץ כאן!</span
+              >
+              <span id="helpArrow" class="float-left text-blue-700 text-xl"
+                >▼</span
+              >
+            </button>
+
+            <div id="helpContent" class="help-content p-6">
+              <div class="space-y-4">
+                <div class="bg-white/50 p-4 rounded-xl">
+                  <h3 class="font-semibold text-green-700 mb-2">
+                    💡 רעיונות לחוקים מותרים:
+                  </h3>
+                  <ul class="text-sm space-y-1 text-gray-700">
+                    <li>• לעזור אחד לשני</li>
+                    <li>• לדבר בנימוס</li>
+                    <li>• לשתף מידע מועיל</li>
+                    <li>• לנקות אחרי עצמי</li>
+                    <li>• לומר תודה ובבקשה</li>
+                    <li>• לכבד את הזמן של כולם</li>
+                  </ul>
+                </div>
+
+                <div class="bg-white/50 p-4 rounded-xl">
+                  <h3 class="font-semibold text-red-700 mb-2">
+                    💡 רעיונות לחוקים אסורים:
+                  </h3>
+                  <ul class="text-sm space-y-1 text-gray-700">
+                    <li>• לא לפגוע ברגשות</li>
+                    <li>• לא לשלוח ספאם</li>
+                    <li>• לא להעביר שמועות</li>
+                    <li>• לא לצעוק או לכתוב באותיות גדולות</li>
+                    <li>• לא לשבור דברים</li>
+                    <li>• לא להפריע בזמן מנוחה</li>
+                  </ul>
+                </div>
+
+                <div class="bg-white/50 p-4 rounded-xl">
+                  <h3 class="font-semibold text-purple-700 mb-2">
+                    🤔 שאלות שיעזרו לך לחשוב:
+                  </h3>
+                  <ul class="text-sm space-y-1 text-gray-700">
+                    <li>• איך אני רוצה שיתנהגו איתי?</li>
+                    <li>• מה עוזר לי להרגיש בטוח ונוח?</li>
+                    <li>• איך אפשר לשמור על אווירה טובה?</li>
+                    <li>• מה חשוב לי במקום הזה?</li>
+                    <li>• איך נוכל לעבוד יחד בהרמוניה?</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- כפתור יצירה -->
+          <button
+            id="createPoster"
+            class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg lg:text-xl font-bold py-3 lg:py-4 px-6 lg:px-8 rounded-2xl hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg"
+          >
+            ✨ צור את הכרזה שלי!
+          </button>
+        </div>
+
+        <!-- צד ימין - תצוגה מקדימה -->
+        <div class="space-y-4 lg:space-y-6">
+          <div
+            class="bg-white/70 backdrop-blur-sm rounded-2xl p-4 lg:p-6 shadow-lg"
+          >
+            <h2 class="text-2xl font-semibold text-purple-700 mb-4">
+              👀 תצוגה מקדימה
+            </h2>
+
+            <div
+              id="posterPreview"
+              class="poster-preview p-3 lg:p-6 min-h-64 lg:min-h-96"
+            >
+              <div class="text-center text-gray-400 mt-10 lg:mt-20">
+                <div class="text-4xl lg:text-6xl mb-4">📋</div>
+                <p class="text-sm lg:text-lg">
+                  הכרזה שלך תופיע כאן<br />אחרי שתלחץ על "צור את הכרזה שלי!"
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-4 space-y-2">
+              <button
+                id="downloadPDF"
+                class="w-full bg-blue-500 text-white text-base lg:text-lg font-semibold py-2 lg:py-3 px-4 lg:px-6 rounded-xl hover:bg-blue-600 transition-colors shadow-md hidden"
+              >
+                📄 הורד כ-PDF
+              </button>
+              <button
+                id="printPoster"
+                class="w-full bg-green-500 text-white text-base lg:text-lg font-semibold py-2 lg:py-3 px-4 lg:px-6 rounded-xl hover:bg-green-600 transition-colors shadow-md hidden"
+              >
+                🖨️ הדפס
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // טיפול בלשונית העזרה
+      document
+        .getElementById("helpToggle")
+        .addEventListener("click", function () {
+          const content = document.getElementById("helpContent");
+          const arrow = document.getElementById("helpArrow");
+
+          if (content.classList.contains("open")) {
+            content.classList.remove("open");
+            arrow.textContent = "▼";
+          } else {
+            content.classList.add("open");
+            arrow.textContent = "▲";
+          }
+        });
+
+      // טיפול בכפתורי עזרה לדברי פתיחה וסיום
+      document
+        .getElementById("openingHelpBtn")
+        .addEventListener("click", function () {
+          const helpDiv = document.getElementById("openingHelp");
+          helpDiv.classList.toggle("hidden");
+        });
+
+      document
+        .getElementById("closingHelpBtn")
+        .addEventListener("click", function () {
+          const helpDiv = document.getElementById("closingHelp");
+          helpDiv.classList.toggle("hidden");
+        });
+
+      // הוספת טקסט מוכן לדברי פתיחה
+      document.querySelectorAll(".opening-suggestion").forEach((button) => {
+        button.addEventListener("click", function () {
+          document.getElementById("openingText").value = this.textContent;
+          document.getElementById("openingHelp").classList.add("hidden");
+        });
+      });
+
+      // הוספת טקסט מוכן לדברי סיום
+      document.querySelectorAll(".closing-suggestion").forEach((button) => {
+        button.addEventListener("click", function () {
+          document.getElementById("closingText").value = this.textContent;
+          document.getElementById("closingHelp").classList.add("hidden");
+        });
+      });
+
+      // טיפול בבחירת סגנון מותאם אישית
+      document
+        .getElementById("designStyle")
+        .addEventListener("change", function () {
+          const customDiv = document.getElementById("customStyleDiv");
+          if (this.value === "custom") {
+            customDiv.classList.remove("hidden");
+          } else {
+            customDiv.classList.add("hidden");
+          }
+        });
+
+      // פונקציה ליצירת אייקונים לפי סגנון
+      function getStyleIcons(style) {
+        const icons = {
+          colorful: { allowed: "🌟", forbidden: "🚫", note: "💡" },
+          nature: { allowed: "🌱", forbidden: "🍂", note: "🌿" },
+          space: { allowed: "⭐", forbidden: "🌑", note: "🚀" },
+          ocean: { allowed: "🐠", forbidden: "🦈", note: "🌊" },
+          rainbow: { allowed: "🌈", forbidden: "⛈️", note: "☀️" },
+          animals: { allowed: "🐱", forbidden: "🐺", note: "🦋" },
+          custom: { allowed: "✅", forbidden: "❌", note: "📝" },
+        };
+        return icons[style] || icons["colorful"];
+      }
+
+      // פונקציה ליצירת דקורציות תמטיות
+      function getThemeDecorations(style, customText) {
+        if (style === "custom" && customText) {
+          const text = customText.toLowerCase();
+          if (text.includes("מיינקראפט") || text.includes("minecraft")) {
+            return {
+              decorations: "🟫⬛🟩🔶💎⚔️🏹🧟‍♂️💥🕷️",
+              pattern:
+                "repeating-linear-gradient(45deg, #8B4513 0px, #8B4513 10px, #228B22 10px, #228B22 20px, #654321 20px, #654321 30px)",
+            };
+          } else if (text.includes("פוקימון") || text.includes("pokemon")) {
+            return {
+              decorations: "⚡🔥💧🌿❄️🌟⚫🔴🟡🔵",
+              pattern:
+                "radial-gradient(circle at 25% 25%, #ffcccb 0%, transparent 50%), radial-gradient(circle at 75% 75%, #add8e6 0%, transparent 50%)",
+            };
+          } else if (text.includes("חלל") || text.includes("כוכבים")) {
+            return {
+              decorations: "🚀⭐🌟🛸👽🌙🪐☄️🌌✨",
+              pattern:
+                "radial-gradient(2px 2px at 20px 30px, #ffffff, transparent), radial-gradient(2px 2px at 40px 70px, #ffffff, transparent)",
+            };
+          } else if (text.includes("ים") || text.includes("דגים")) {
+            return {
+              decorations: "🐠🐟🦈🐙🦀🌊🏖️⛵🐚🦑",
+              pattern:
+                "repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)",
+            };
+          } else if (
+            text.includes("חיות") ||
+            text.includes("כלבים") ||
+            text.includes("חתולים")
+          ) {
+            return {
+              decorations: "🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯",
+              pattern:
+                "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%)",
+            };
+          } else if (text.includes("פרחים") || text.includes("גן")) {
+            return {
+              decorations: "🌸🌺🌻🌷🌹🌼💐🦋🐝🌿",
+              pattern:
+                "repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,192,203,0.1) 15px, rgba(255,192,203,0.1) 30px)",
+            };
+          }
+        }
+
+        const defaults = {
+          colorful: {
+            decorations: "🌟💫⭐✨🎨🎪🎭🎨",
+            pattern:
+              "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.2) 0%, transparent 50%)",
+          },
+          nature: {
+            decorations: "🌱🌿🍃🌳🦋🐝🌸🌺",
+            pattern:
+              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)",
+          },
+          space: {
+            decorations: "⭐🌟✨🚀🛸👽🌙🪐",
+            pattern:
+              "radial-gradient(2px 2px at 20px 30px, #ffffff, transparent)",
+          },
+          ocean: {
+            decorations: "🌊🐠🐟🦈🐙🦀🏖️⛵",
+            pattern:
+              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)",
+          },
+          rainbow: {
+            decorations: "🌈☀️⭐🦄💫🎨🎪✨",
+            pattern:
+              "conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.1) 0deg, transparent 60deg)",
+          },
+          animals: {
+            decorations: "🐱🐶🐭🐹🐰🦊🐻🐼",
+            pattern:
+              "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.2) 0%, transparent 50%)",
+          },
+        };
+
+        return defaults[style] || defaults["colorful"];
+      }
+
+      // פונקציה ליצירת עיצוב מלא לפי סגנון
+      function getStyleDesign(style) {
+        const designs = {
+          colorful: {
+            background:
+              "linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)",
+            headerBg: "rgba(255, 255, 255, 0.9)",
+            headerColor: "#2c3e50",
+            cardBg: "rgba(255, 255, 255, 0.8)",
+            border: "3px solid #ff6b6b",
+            shadow: "0 8px 32px rgba(255, 107, 107, 0.3)",
+            pattern:
+              "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 50%)",
+          },
+          nature: {
+            background:
+              "linear-gradient(135deg, #a8e6cf 0%, #88d8a3 50%, #68c583 100%)",
+            headerBg: "rgba(255, 255, 255, 0.9)",
+            headerColor: "#2d5016",
+            cardBg: "rgba(255, 255, 255, 0.85)",
+            border: "3px solid #48bb78",
+            shadow: "0 8px 32px rgba(72, 187, 120, 0.3)",
+            pattern:
+              'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2348bb78" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          },
+          space: {
+            background:
+              "radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+            headerBg: "rgba(255, 255, 255, 0.1)",
+            headerColor: "#ffffff",
+            cardBg: "rgba(255, 255, 255, 0.05)",
+            border: "2px solid #4a90e2",
+            shadow: "0 8px 32px rgba(74, 144, 226, 0.4)",
+            pattern:
+              "radial-gradient(2px 2px at 20px 30px, #ffffff, transparent), radial-gradient(2px 2px at 40px 70px, #ffffff, transparent), radial-gradient(1px 1px at 90px 40px, #ffffff, transparent), radial-gradient(1px 1px at 130px 80px, #ffffff, transparent)",
+          },
+          ocean: {
+            background:
+              "linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #006ba6 100%)",
+            headerBg: "rgba(255, 255, 255, 0.9)",
+            headerColor: "#2c5282",
+            cardBg: "rgba(255, 255, 255, 0.8)",
+            border: "3px solid #3182ce",
+            shadow: "0 8px 32px rgba(49, 130, 206, 0.3)",
+            pattern:
+              "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)",
+          },
+          rainbow: {
+            background:
+              "linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff)",
+            headerBg: "rgba(255, 255, 255, 0.95)",
+            headerColor: "#2c3e50",
+            cardBg: "rgba(255, 255, 255, 0.9)",
+            border: "4px solid transparent",
+            borderImage:
+              "linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4) 1",
+            shadow: "0 8px 32px rgba(255, 107, 107, 0.4)",
+            pattern:
+              "conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.1) 0deg, transparent 60deg, rgba(255,255,255,0.1) 120deg, transparent 180deg, rgba(255,255,255,0.1) 240deg, transparent 300deg)",
+          },
+          animals: {
+            background:
+              "linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8, #fdcb6e)",
+            headerBg: "rgba(255, 255, 255, 0.9)",
+            headerColor: "#2d3436",
+            cardBg: "rgba(255, 255, 255, 0.85)",
+            border: "3px solid #e17055",
+            shadow: "0 8px 32px rgba(225, 112, 85, 0.3)",
+            pattern:
+              "radial-gradient(circle at 25% 25%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.2) 0%, transparent 50%)",
+          },
+        };
+        return designs[style] || designs["colorful"];
+      }
+
+      // יצירת הכרזה
+      document
+        .getElementById("createPoster")
+        .addEventListener("click", function () {
+          const style = document.getElementById("designStyle").value;
+          const customStyle = document.getElementById("customStyle").value;
+          const posterName = document.getElementById("posterName").value.trim();
+          const openingText = document
+            .getElementById("openingText")
+            .value.trim();
+          const allowed = document.getElementById("allowedRules").value.trim();
+          const forbidden = document
+            .getElementById("forbiddenRules")
+            .value.trim();
+          const notes = document.getElementById("additionalNotes").value.trim();
+          const closingText = document
+            .getElementById("closingText")
+            .value.trim();
+
+          if (!posterName) {
+            alert("אנא כתוב את שם הכרזה!");
+            return;
+          }
+
+          if (
+            !allowed &&
+            !forbidden &&
+            !notes &&
+            !openingText &&
+            !closingText
+          ) {
+            alert("אנא כתוב לפחות חוק אחד, הערה או טקסט!");
+            return;
+          }
+
+          const icons = getStyleIcons(style);
+          const design = getStyleDesign(style);
+          const themeDecorations = getThemeDecorations(style, customStyle);
+          const title = `הכללים של ${posterName}`;
+
+          // יצירת דקורציות מפוזרות
+          const decorationElements = themeDecorations.decorations
+            .split("")
+            .map(
+              (emoji) =>
+                `<span style="position: absolute; font-size: 1.5rem; opacity: 0.3; 
+                 left: ${Math.random() * 90}%; top: ${Math.random() * 90}%; 
+                 transform: rotate(${Math.random() * 360}deg);">${emoji}</span>`
+            )
+            .join("");
+
+          let posterHTML = `
+                <div style="
+                    background: ${design.background}; 
+                    background-image: ${themeDecorations.pattern}; 
+                    padding: 0; 
+                    border-radius: 20px; 
+                    border: ${design.border}; 
+                    box-shadow: ${design.shadow};
+                    overflow: hidden;
+                    min-height: 500px;
+                    position: relative;
+                ">
+                    ${decorationElements}
+                    <div style="
+                        background: ${design.headerBg}; 
+                        padding: 25px; 
+                        text-align: center;
+                        backdrop-filter: blur(10px);
+                        border-bottom: 2px solid rgba(255,255,255,0.2);
+                        position: relative;
+                        z-index: 10;
+                    ">
+                        <h1 style="
+                            font-size: clamp(1.5rem, 4vw, 2.2rem); 
+                            font-weight: bold; 
+                            margin: 0; 
+                            color: ${design.headerColor};
+                            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+                        ">${title}</h1>
+                    </div>
+                    <div style="padding: 25px; position: relative; z-index: 10;">
+            `;
+
+          // הוספת דברי פתיחה
+          if (openingText) {
+            posterHTML += `<div style="margin-bottom: 25px;">
+                    <div style="
+                        background: ${design.cardBg}; 
+                        border-radius: 15px; 
+                        padding: 20px; 
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(99, 102, 241, 0.3);
+                        text-align: center;
+                    ">
+                        <div style="
+                            color: #4338ca; 
+                            font-size: 1.3rem; 
+                            font-weight: 500; 
+                            line-height: 1.6;
+                            font-style: italic;
+                        ">${openingText}</div>
+                    </div>
+                </div>`;
+          }
+
+          if (allowed) {
+            posterHTML += `<div style="margin-bottom: 25px;">
+                    <div style="
+                        background: ${design.cardBg}; 
+                        border-radius: 15px; 
+                        padding: 20px; 
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(34, 197, 94, 0.3);
+                    ">
+                        <h2 style="
+                            color: #16a34a; 
+                            font-size: clamp(1.2rem, 3vw, 1.6rem); 
+                            font-weight: bold; 
+                            margin-bottom: 15px; 
+                            display: flex; 
+                            align-items: center;
+                            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+                        ">
+                            <span style="font-size: clamp(1.8rem, 4vw, 2.2rem); margin-left: 12px;">${icons.allowed}</span>
+                            מה מותר?
+                        </h2>`;
+
+            allowed.split("\n").forEach((rule) => {
+              if (rule.trim()) {
+                posterHTML += `<div style="
+                            display: flex; 
+                            align-items: center; 
+                            margin: 12px 0; 
+                            padding: 12px; 
+                            background: rgba(34, 197, 94, 0.1); 
+                            border-radius: 10px;
+                            border-right: 4px solid #22c55e;
+                        ">
+                            <span style="font-size: 1.8rem; margin-left: 12px;">${
+                              icons.allowed
+                            }</span>
+                            <span style="font-size: 1.2rem; font-weight: 500;">${rule.trim()}</span>
+                        </div>`;
+              }
+            });
+            posterHTML += `</div></div>`;
+          }
+
+          if (forbidden) {
+            posterHTML += `<div style="margin-bottom: 25px;">
+                    <div style="
+                        background: ${design.cardBg}; 
+                        border-radius: 15px; 
+                        padding: 20px; 
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(239, 68, 68, 0.3);
+                    ">
+                        <h2 style="
+                            color: #dc2626; 
+                            font-size: 1.6rem; 
+                            font-weight: bold; 
+                            margin-bottom: 15px; 
+                            display: flex; 
+                            align-items: center;
+                            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+                        ">
+                            <span style="font-size: 2.2rem; margin-left: 12px;">${icons.forbidden}</span>
+                            מה אסור?
+                        </h2>`;
+
+            forbidden.split("\n").forEach((rule) => {
+              if (rule.trim()) {
+                posterHTML += `<div style="
+                            display: flex; 
+                            align-items: center; 
+                            margin: 12px 0; 
+                            padding: 12px; 
+                            background: rgba(239, 68, 68, 0.1); 
+                            border-radius: 10px;
+                            border-right: 4px solid #ef4444;
+                        ">
+                            <span style="font-size: 1.8rem; margin-left: 12px;">${
+                              icons.forbidden
+                            }</span>
+                            <span style="font-size: 1.2rem; font-weight: 500;">${rule.trim()}</span>
+                        </div>`;
+              }
+            });
+            posterHTML += `</div></div>`;
+          }
+
+          if (notes) {
+            posterHTML += `<div style="margin-bottom: 25px;">
+                    <div style="
+                        background: ${design.cardBg}; 
+                        border-radius: 15px; 
+                        padding: 20px; 
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(234, 179, 8, 0.3);
+                    ">
+                        <h2 style="
+                            color: #ca8a04; 
+                            font-size: 1.6rem; 
+                            font-weight: bold; 
+                            margin-bottom: 15px; 
+                            display: flex; 
+                            align-items: center;
+                            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+                        ">
+                            <span style="font-size: 2.2rem; margin-left: 12px;">${icons.note}</span>
+                            הערות חשובות
+                        </h2>`;
+
+            notes.split("\n").forEach((note) => {
+              if (note.trim()) {
+                posterHTML += `<div style="
+                            display: flex; 
+                            align-items: center; 
+                            margin: 12px 0; 
+                            padding: 12px; 
+                            background: rgba(234, 179, 8, 0.1); 
+                            border-radius: 10px;
+                            border-right: 4px solid #eab308;
+                        ">
+                            <span style="font-size: 1.8rem; margin-left: 12px;">${
+                              icons.note
+                            }</span>
+                            <span style="font-size: 1.2rem; font-weight: 500;">${note.trim()}</span>
+                        </div>`;
+              }
+            });
+            posterHTML += `</div></div>`;
+          }
+
+          // הוספת דברי סיום
+          if (closingText) {
+            posterHTML += `<div style="margin-bottom: 25px;">
+                    <div style="
+                        background: ${design.cardBg}; 
+                        border-radius: 15px; 
+                        padding: 20px; 
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(236, 72, 153, 0.3);
+                        text-align: center;
+                    ">
+                        <div style="
+                            color: #be185d; 
+                            font-size: 1.3rem; 
+                            font-weight: 500; 
+                            line-height: 1.6;
+                            font-style: italic;
+                        ">${closingText}</div>
+                    </div>
+                </div>`;
+          }
+
+          posterHTML += `</div></div>`;
+
+          document.getElementById("posterPreview").innerHTML = posterHTML;
+          document.getElementById("downloadPDF").classList.remove("hidden");
+          document.getElementById("printPoster").classList.remove("hidden");
+        });
+
+      // פונקציה ליצירת חלון הדפסה/PDF
+      function createPrintWindow() {
+        const posterContent =
+          document.getElementById("posterPreview").innerHTML;
+        const printWindow = window.open("", "_blank", "width=800,height=600");
+
+        printWindow.document.write(`
+                <!DOCTYPE html>
+                <html dir="rtl" lang="he">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>כרזת החוקים שלי</title>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+                        
+                        * {
+                            box-sizing: border-box;
+                        }
+                        
+                        body { 
+                            font-family: 'Heebo', sans-serif; 
+                            margin: 0; 
+                            padding: 20px; 
+                            background: white;
+                            line-height: 1.4;
+                        }
+                        
+                        @media print {
+                            body { 
+                                margin: 0; 
+                                padding: 10px; 
+                            }
+                            
+                            * {
+                                -webkit-print-color-adjust: exact !important;
+                                color-adjust: exact !important;
+                                print-color-adjust: exact !important;
+                            }
+                            
+                            @page {
+                                margin: 1cm;
+                                size: A4;
+                            }
+                        }
+                        
+                        @media screen {
+                            body {
+                                max-width: 800px;
+                                margin: 0 auto;
+                            }
+                            
+                            .print-controls {
+                                position: fixed;
+                                top: 10px;
+                                left: 10px;
+                                z-index: 1000;
+                                background: white;
+                                padding: 10px;
+                                border-radius: 8px;
+                                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                            }
+                            
+                            .print-controls button {
+                                margin: 0 5px;
+                                padding: 8px 16px;
+                                border: none;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                font-family: 'Heebo', sans-serif;
+                            }
+                            
+                            .print-btn {
+                                background: #10b981;
+                                color: white;
+                            }
+                            
+                            .close-btn {
+                                background: #ef4444;
+                                color: white;
+                            }
+                        }
+                        
+                        @media print {
+                            .print-controls {
+                                display: none !important;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-controls">
+                        <button class="print-btn" onclick="window.print()">🖨️ הדפס / שמור כ-PDF</button>
+                        <button class="close-btn" onclick="window.close()">✖️ סגור</button>
+                    </div>
+                    ${posterContent}
+                </body>
+                </html>
+            `);
+
+        printWindow.document.close();
+        return printWindow;
+      }
+
+      // הורדה כ-PDF (דרך הדפסה)
+      document
+        .getElementById("downloadPDF")
+        .addEventListener("click", function () {
+          const printWindow = createPrintWindow();
+
+          // המתנה קצרה לטעינת החלון ואז פתיחת דיאלוג ההדפסה
+          setTimeout(() => {
+            printWindow.focus();
+            printWindow.print();
+          }, 500);
+        });
+
+      // הדפסה רגילה
+      document
+        .getElementById("printPoster")
+        .addEventListener("click", function () {
+          const printWindow = createPrintWindow();
+
+          setTimeout(() => {
+            printWindow.focus();
+          }, 100);
+        });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9651ce3c840df9c6',t:'MTc1MzUxMDk3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
